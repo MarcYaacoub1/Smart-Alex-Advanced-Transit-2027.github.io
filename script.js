@@ -1,7 +1,51 @@
 const App = (() => {
     const dictionary = {
-        ar: { balanceLabel: "رصيد كارت المترو", plannerTitle: "تخطيط الرحلة", btnBook: "تأكيد وحجز المفتاح الرقمي", fareLabel: "تكلفة الرحلة", historyTitle: "سجل العمليات الأخيرة", logout: "خروج", loginTitle: "تعريف الهوية", btnLogin: "دخول النظام", modalTitle: "مفتاح الوصول الرقمي", lblFrom: "التحرك", lblTo: "الوصول", lblPassenger: "الراكب", alertLow: "رصيدك غير كافٍ!", alertSame: "اختر محطة وصول مختلفة!", noHistory: "لا توجد رحلات سابقة." },
-        fr: { balanceLabel: "Solde de la Carte", plannerTitle: "Planificateur de Trajet", btnBook: "Réserver la Clé", fareLabel: "Tarif du Trajet", historyTitle: "Activité Récente", logout: "Déconnexion", loginTitle: "Identification", btnLogin: "Accès", modalTitle: "Clé d'Accès Digitale", lblFrom: "Départ", lblTo: "Arrivée", lblPassenger: "Passager", alertLow: "Solde Insuffisant!", alertSame: "Même station sélectionnée!", noHistory: "Aucune activité récente." }
+        ar: {
+            balanceLabel: "رصيد كارت المترو",
+            plannerTitle: "تخطيط الرحلة",
+            btnBook: "حجز المفتاح الرقمي",
+            fareLabel: "تكلفة الرحلة",
+            historyTitle: "سجل الرحلات",
+            logout: "خروج",
+            btnLogin: "دخول النظام",
+            modalTitle: "مفتاح الوصول الرقمي",
+            lblFrom: "التحرك",
+            lblTo: "الوصول",
+            lblPassenger: "الراكب",
+            stationsLabel: "محطات",
+            pricingTitle: "نظام التسعيرة الذكي",
+            aboutTitle: "عن مشروع مترو الإسكندرية",
+            aboutDesc: "مشروع مترو الإسكندرية 2027 هو تحول جذري لخط قطار أبو قير الحالي إلى مترو أنفاق كهربائي متطور، يهدف لربط أقصى شرق المدينة بوسطها بسرعة وكفاءة عالية.",
+            specsTitle: "المواصفات الفنية",
+            specs: ["طول الخط: 21.7 كم", "عدد المحطات: 20 محطة", "السرعة: 80 كم/ساعة", "الطاقة: كهربائي بالكامل"],
+            pricing: ["حتى 9 محطات: 8 ج.م", "من 10 لـ 16 محطة: 10 ج.م", "أكثر من 16 محطة: 15 ج.م"],
+            alertLow: "رصيدك غير كافٍ!",
+            alertSame: "اختر محطة وصول مختلفة!",
+            noHistory: "لا توجد رحلات سابقة."
+        },
+        fr: {
+            balanceLabel: "Solde de la Carte",
+            plannerTitle: "Planificateur de Trajet",
+            btnBook: "Réserver la Clé",
+            fareLabel: "Tarif du Trajet",
+            historyTitle: "Activité Récente",
+            logout: "Déconnexion",
+            btnLogin: "Accès",
+            modalTitle: "Clé d'Accès Digitale",
+            lblFrom: "Départ",
+            lblTo: "Arrivée",
+            lblPassenger: "Passager",
+            stationsLabel: "Stations",
+            pricingTitle: "Système de Tarification",
+            aboutTitle: "À Propos du Projet",
+            aboutDesc: "Le Métro d'Alexandrie 2027 est une transformation majeure de la ligne Abou Qir en un métro électrique moderne reliant l'est au centre-ville.",
+            specsTitle: "Spécifications",
+            specs: ["Longueur: 21.7 km", "Stations: 20", "Vitesse: 80 km/h", "Énergie: 100% Électrique"],
+            pricing: ["Jusqu'à 9 stations: 8 EGP", "10 à 16 stations: 10 EGP", "Plus de 16 stations: 15 EGP"],
+            alertLow: "Solde Insuffisant!",
+            alertSame: "Même station sélectionnée!",
+            noHistory: "Aucune activité."
+        }
     };
 
     const state = {
@@ -31,25 +75,33 @@ const App = (() => {
     const notify = (msg, type = 'info') => {
         const wrapper = document.getElementById('toast-wrapper');
         const toast = document.createElement('div');
-        toast.className = `px-8 py-4 rounded-2xl shadow-2xl border text-[10px] font-black uppercase animate-modal pointer-events-auto ${type === 'error' ? 'bg-red-600 text-white border-red-400' : 'bg-slate-800 text-white border-white/10'}`;
+        toast.className = `px-8 py-4 rounded-2xl shadow-2xl border text-[10px] font-black uppercase animate-modal pointer-events-auto ${type === 'error' ? 'bg-red-600' : 'bg-slate-800'} text-white border-white/10`;
         toast.innerText = msg;
         wrapper.appendChild(toast);
         setTimeout(() => toast.remove(), 4000);
     };
 
+    const updateClock = () => {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString(state.lang === 'ar' ? 'ar-EG' : 'en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit', 
+            hour12: true 
+        });
+        if(document.getElementById('digital-clock')) document.getElementById('digital-clock').innerText = timeStr;
+    };
+
     return {
         init: () => {
             state.lang = localStorage.getItem('metroLang');
+            setInterval(updateClock, 1000);
             setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
+                document.getElementById('splash-screen').style.opacity = '0';
                 setTimeout(() => {
-                    splash.remove();
-                    if (!state.lang) {
-                        document.getElementById('lang-selection').classList.replace('hidden', 'flex');
-                    } else {
-                        App.startApp();
-                    }
+                    document.getElementById('splash-screen').remove();
+                    if (!state.lang) document.getElementById('lang-selection').classList.replace('hidden', 'flex');
+                    else App.startApp();
                 }, 1000);
             }, 3500);
             lucide.createIcons();
@@ -58,11 +110,8 @@ const App = (() => {
         setInitialLang: (l) => {
             state.lang = l;
             localStorage.setItem('metroLang', l);
-            document.getElementById('lang-selection').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('lang-selection').remove();
-                App.startApp();
-            }, 700);
+            document.getElementById('lang-selection').remove();
+            App.startApp();
         },
 
         startApp: () => {
@@ -80,13 +129,13 @@ const App = (() => {
             state.map = L.map('map-ui', { zoomControl: false, attributionControl: false }).setView([31.25, 29.98], 12);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(state.map);
             
+            const routeCoords = state.stations.map(st => [st.lat, st.lng]);
+            L.polyline(routeCoords, { color: '#0ea5e9', weight: 3, opacity: 0.6, className: 'route-line' }).addTo(state.map);
+
             state.stations.forEach(st => {
-                const icon = L.divIcon({ className: 'custom-marker', html: `<div class="w-3 h-3 bg-sky-600 border border-white rounded-full custom-marker-node relative"></div>` });
-                const marker = L.marker([st.lat, st.lng], { icon }).addTo(state.map);
-                marker.bindTooltip(st.name[state.lang], { permanent: true, direction: 'top', className: 'station-label', offset: [0, -5] });
-                
-                // تصحيح رابط جوجل ماب
-                marker.on('click', () => window.open(`https://www.google.com/maps?q=${st.lat},${st.lng}`, '_blank'));
+                const icon = L.divIcon({ className: 'custom-marker', html: `<div class=\"w-3 h-3 bg-sky-600 border border-white rounded-full\"></div>` });
+                L.marker([st.lat, st.lng], { icon }).addTo(state.map)
+                 .bindTooltip(st.name[state.lang], { permanent: true, direction: 'top', className: 'station-label', offset: [0, -5] });
             });
 
             document.getElementById('app-root').style.opacity = '1';
@@ -99,37 +148,35 @@ const App = (() => {
             const d = dictionary[state.lang];
             document.documentElement.dir = state.lang === 'ar' ? 'rtl' : 'ltr';
             document.getElementById('btn-lang-toggle').innerText = state.lang === 'ar' ? 'FRANÇAIS' : 'بالعربية';
-            const mapping = { 'lang-balance-label': d.balanceLabel, 'lang-planner-title': d.plannerTitle, 'lang-btn-book': d.btnBook, 'lang-fare-label': d.fareLabel, 'lang-history-title': d.historyTitle, 'lang-btn-login': d.btnLogin, 'lang-logout': d.logout, 'modal-title': d.modalTitle, 'lbl-from': d.lblFrom, 'lbl-to': d.lblTo, 'lbl-passenger': d.lblPassenger };
+            
+            const mapping = { 
+                'lang-balance-label': d.balanceLabel, 'lang-planner-title': d.plannerTitle, 
+                'lang-btn-book': d.btnBook, 'lang-fare-label': d.fareLabel, 
+                'lang-history-title': d.historyTitle, 'lang-btn-login': d.btnLogin, 
+                'lang-logout': d.logout, 'modal-title': d.modalTitle, 
+                'lbl-from': d.lblFrom, 'lbl-to': d.lblTo, 'lbl-passenger': d.lblPassenger,
+                'lang-stations-label': d.stationsLabel, 'lang-pricing-title': d.pricingTitle,
+                'lang-about-title': d.aboutTitle, 'lang-about-desc': d.aboutDesc,
+                'lang-specs-title': d.specsTitle
+            };
             for (let id in mapping) if (document.getElementById(id)) document.getElementById(id).innerText = mapping[id];
             
             const options = state.stations.map(s => `<option value="${s.id}">${s.name[state.lang]}</option>`).join('');
             document.getElementById('origin').innerHTML = options;
             document.getElementById('destination').innerHTML = options;
+
+            document.getElementById('pricing-list').innerHTML = d.pricing.map(p => `<div class=\"pricing-item text-[10px] text-slate-300\"><span>${p.split(':')[0]}</span><span class=\"font-black text-sky-400\">${p.split(':')[1]}</span></div>`).join('');
+            document.getElementById('lang-specs-list').innerHTML = d.specs.map(s => `<li>${s}</li>`).join('');
+
             App.renderHistory();
             lucide.createIcons();
-        },
-
-        renderHistory: () => {
-            const container = document.getElementById('history-list');
-            if (state.history.length === 0) { 
-                container.innerHTML = `<div class="col-span-full py-8 text-center text-slate-700 text-[10px] font-black uppercase tracking-widest animate-fade-in">${dictionary[state.lang].noHistory}</div>`; 
-                return; 
-            }
-            container.innerHTML = state.history.slice(0, 4).map((trip, index) => `
-                <div class="bg-white/[0.03] border border-white/5 p-6 rounded-[2.5rem] flex justify-between items-center group hover:bg-white/5 transition-all hover:scale-[1.02] animate-fade-in" style="animation-delay: ${index * 100}ms">
-                    <div><p class="text-[11px] font-black text-white">${trip.from} ➜ ${trip.to}</p><p class="text-[8px] font-bold text-slate-500 uppercase mt-1 tracking-widest">${trip.time}</p></div>
-                    <p class="text-xs font-black text-sky-400 group-hover:text-white transition-colors">-${trip.price} EGP</p>
-                </div>`).join('');
         },
 
         updateFare: () => {
             const s = parseInt(document.getElementById('origin').value);
             const e = parseInt(document.getElementById('destination').value);
             const count = Math.abs(e - s);
-            
-            // تحديث عدد المحطات في الواجهة
             document.getElementById('station-count').innerText = count;
-            
             let price = count === 0 ? 0 : (count <= 9 ? 8 : (count <= 16 ? 10 : 15));
             document.getElementById('fare-output').innerText = price;
         },
@@ -147,15 +194,13 @@ const App = (() => {
                 
                 const from = document.getElementById('origin').options[document.getElementById('origin').selectedIndex].text;
                 const to = document.getElementById('destination').options[document.getElementById('destination').selectedIndex].text;
-                const trip = { from, to, price, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
+                const trip = { from, to, price, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true}) };
                 state.history.unshift(trip);
                 localStorage.setItem('metroHistory', JSON.stringify(state.history));
                 
                 App.showTicket(trip);
                 App.renderHistory();
-            } else {
-                notify(dictionary[state.lang].alertLow, "error");
-            }
+            } else notify(dictionary[state.lang].alertLow, "error");
         },
 
         showTicket: (trip) => {
@@ -165,32 +210,22 @@ const App = (() => {
             document.getElementById('ticket-user-name').innerText = state.currentUser.name;
             document.getElementById('ticket-from').innerText = trip.from;
             document.getElementById('ticket-to').innerText = trip.to;
-
-            new QRCode(qrBox, {
-                text: `KEY:${state.currentUser.name}|TRIP:${trip.from}-${trip.to}|ID:${Date.now()}`,
-                width: 130, height: 130, colorDark: "#000000", colorLight: "#ffffff"
-            });
+            // Enhanced QR Size
+            new QRCode(qrBox, { text: `TICKET:${Date.now()}`, width: 220, height: 220 });
         },
 
         closeTicket: () => document.getElementById('qr-modal').classList.replace('flex', 'hidden'),
-
         login: () => {
             const n = document.getElementById('user-name-input').value;
-            if (n.trim().length >= 3) {
-                localStorage.setItem('metroUser', JSON.stringify({ name: n, balance: 150.00 }));
-                location.reload();
-            }
+            if (n.trim().length >= 3) { localStorage.setItem('metroUser', JSON.stringify({ name: n, balance: 150.00 })); location.reload(); }
         },
-
         logout: () => { localStorage.clear(); location.reload(); },
-
         toggleLanguage: () => {
             state.lang = state.lang === 'ar' ? 'fr' : 'ar';
             localStorage.setItem('metroLang', state.lang);
             App.translate();
             App.updateFare();
         },
-
         handleTopUp: () => {
             const amt = parseFloat(document.getElementById('topup-amount').value);
             if (amt > 0 && state.currentUser) {
@@ -199,8 +234,20 @@ const App = (() => {
                 localStorage.setItem('metroUser', JSON.stringify(state.currentUser));
                 document.getElementById('balance-display').innerText = state.balance.toFixed(2);
                 document.getElementById('topup-amount').value = '';
-                notify(state.lang === 'ar' ? "تم شحن الرصيد بنجاح" : "Top-up Successful");
+                notify(state.lang === 'ar' ? "تم الشحن بنجاح" : "Top-up Successful");
             }
+        },
+        renderHistory: () => {
+            const container = document.getElementById('history-list');
+            if (state.history.length === 0) { 
+                container.innerHTML = `<div class=\"col-span-full py-8 text-center text-slate-700 text-[10px] uppercase font-black tracking-widest\">${dictionary[state.lang].noHistory}</div>`; 
+                return; 
+            }
+            container.innerHTML = state.history.slice(0, 4).map(trip => `
+                <div class=\"bg-white/[0.03] border border-white/5 p-6 rounded-[2.5rem] flex justify-between items-center group transition-all hover:bg-white/5\">
+                    <div><p class=\"text-[11px] font-black text-white\">${trip.from} ➜ ${trip.to}</p><p class=\"text-[8px] font-bold text-slate-500 uppercase mt-1 tracking-widest\">${trip.time}</p></div>
+                    <p class=\"text-xs font-black text-sky-400\">-${trip.price} EGP</p>
+                </div>`).join('');
         }
     };
 })();

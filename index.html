@@ -20,9 +20,6 @@
             </div>
         </div>
         <h1 class="mt-12 text-3xl font-black text-white tracking-[0.5em] uppercase opacity-0 animate-fade-in-delayed">Smart Alex</h1>
-        <div class="mt-5 w-48 h-1 bg-white/5 rounded-full overflow-hidden">
-            <div class="h-full bg-sky-500 animate-loading-bar"></div>
-        </div>
     </div>
 
     <div id="lang-selection" class="fixed inset-0 z-[1500] bg-[#02040a]/95 backdrop-blur-2xl hidden flex-col items-center justify-center transition-opacity duration-700">
@@ -32,7 +29,7 @@
             </div>
             <h2 class="text-3xl font-black text-white tracking-tighter uppercase">Select Language <br> <span class="text-sky-500">اختر اللغة</span></h2>
             <div class="flex flex-col sm:flex-row gap-5">
-                <button onclick="App.setInitialLang('ar')" class="px-14 py-5 bg-white text-black rounded-2xl font-black text-sm hover:bg-sky-500 hover:text-white transition-all shadow-xl shadow-white/5 active:scale-95">العربية</button>
+                <button onclick="App.setInitialLang('ar')" class="px-14 py-5 bg-white text-black rounded-2xl font-black text-sm hover:bg-sky-500 hover:text-white transition-all active:scale-95">العربية</button>
                 <button onclick="App.setInitialLang('fr')" class="px-14 py-5 bg-white/5 text-white rounded-2xl font-black text-sm border border-white/10 hover:bg-white/10 transition-all active:scale-95">FRANÇAIS</button>
             </div>
         </div>
@@ -42,33 +39,32 @@
 
     <div id="qr-modal" class="fixed inset-0 z-[900] hidden items-center justify-center p-6 backdrop-blur-3xl">
         <div class="absolute inset-0 bg-black/60"></div>
-        <div class="relative bg-white rounded-[3.5rem] overflow-hidden max-w-sm w-full shadow-[0_0_100px_rgba(14,165,233,0.3)] animate-modal">
-            <div class="bg-gradient-to-br from-sky-600 to-indigo-700 p-10 text-white relative">
+        <div class="relative bg-white rounded-[3.5rem] overflow-hidden max-w-md w-full shadow-[0_0_100px_rgba(14,165,233,0.3)] animate-modal">
+            <div class="bg-gradient-to-br from-sky-600 to-indigo-700 p-12 text-white relative">
                 <button onclick="App.closeTicket()" class="absolute top-8 right-8 hover:rotate-90 transition-all opacity-50 hover:opacity-100">
                     <i data-lucide="x-circle" class="w-8 h-8"></i>
                 </button>
-                <div class="bg-white/20 w-fit px-3 py-1 rounded-full text-[8px] font-black uppercase mb-4 tracking-widest">Smart Access</div>
                 <h2 class="text-3xl font-black italic tracking-tighter" id="modal-title">تذكرة رقمية</h2>
             </div>
-            <div class="p-10 space-y-8 bg-white flex flex-col items-center">
-                <div id="qrcode" class="p-4 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200 shadow-inner"></div>
+            <div class="p-12 space-y-10 bg-white flex flex-col items-center">
+                <div id="qrcode" class="p-6 bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-200"></div>
                 <div class="w-full grid grid-cols-3 items-center text-slate-900 border-t border-slate-100 pt-8">
                     <div class="text-center">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-widest" id="lbl-from">Departure</p>
-                        <p id="ticket-from" class="text-xs font-black text-sky-600 truncate px-1">--</p>
+                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1" id="lbl-from">Departure</p>
+                        <p id="ticket-from" class="text-xs font-black text-sky-600 truncate">--</p>
                     </div>
-                    <div class="flex flex-col items-center opacity-20"><i data-lucide="train-front" class="w-5 h-5 animate-pulse"></i></div>
+                    <div class="flex flex-col items-center opacity-20"><i data-lucide="train-front" class="w-6 h-6"></i></div>
                     <div class="text-center">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-widest" id="lbl-to">Arrival</p>
-                        <p id="ticket-to" class="text-xs font-black text-sky-600 truncate px-1">--</p>
+                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1" id="lbl-to">Arrival</p>
+                        <p id="ticket-to" class="text-xs font-black text-sky-600 truncate">--</p>
                     </div>
                 </div>
-                <div class="w-full bg-slate-900 rounded-[2rem] p-6 flex justify-between items-center text-white">
+                <div class="w-full bg-slate-900 rounded-[2rem] p-8 flex justify-between items-center text-white">
                     <div>
-                        <p class="text-[8px] font-black uppercase text-sky-400 tracking-widest" id="lbl-passenger">Passenger</p>
-                        <p id="ticket-user-name" class="text-xs font-bold uppercase truncate max-w-[130px]">Marc Yaacoub</p>
+                        <p class="text-[8px] font-black uppercase text-sky-400" id="lbl-passenger">Passenger</p>
+                        <p id="ticket-user-name" class="text-sm font-bold uppercase">--</p>
                     </div>
-                    <i data-lucide="shield-check" class="w-5 h-5 text-green-500"></i>
+                    <i data-lucide="shield-check" class="w-6 h-6 text-green-500"></i>
                 </div>
             </div>
         </div>
@@ -77,16 +73,16 @@
     <div id="app-root" class="min-h-screen flex flex-col opacity-0 transition-opacity duration-1000">
         <nav class="sticky top-0 z-[500] px-6 py-6 bg-[#02040a]/80 backdrop-blur-md border-b border-white/5">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-gradient-to-tr from-sky-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-sky-500/20 hover:rotate-6 transition-transform cursor-pointer">
+                <div class="flex items-center gap-6">
+                    <div class="w-12 h-12 bg-gradient-to-tr from-sky-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white">
                         <i data-lucide="train-front-tunnel" class="w-6 h-6"></i>
                     </div>
-                    <div>
-                        <h1 class="text-sm font-black text-white uppercase tracking-tighter">Smart Alex <span class="text-sky-500 italic">Advanced</span></h1>
-                        <p class="text-[8px] font-bold text-slate-600 tracking-widest uppercase animate-pulse">Transit Dashboard</p>
+                    <div class="flex flex-col">
+                        <h1 class="text-sm font-black text-white uppercase tracking-tighter">Smart Alex <span class="text-sky-500 italic">2027</span></h1>
+                        <span id="digital-clock" class="text-lg font-black text-sky-400 font-mono tracking-widest mt-0.5">00:00:00 AM</span>
                     </div>
                 </div>
-                <button onclick="App.toggleLanguage()" class="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-full border border-white/10 text-[10px] font-black transition-all flex items-center gap-2 active:scale-95 group">
+                <button onclick="App.toggleLanguage()" class="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-full border border-white/10 text-[10px] font-black transition-all flex items-center gap-2 group">
                     <i data-lucide="languages" class="w-3 h-3 text-sky-500 group-hover:rotate-180 transition-transform duration-500"></i>
                     <span id="btn-lang-toggle">FRANÇAIS</span>
                 </button>
@@ -95,27 +91,23 @@
 
         <main class="max-w-7xl mx-auto w-full p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-10 flex-1">
             <aside class="lg:col-span-4 space-y-10">
-                <div class="bg-slate-900/40 border border-white/5 rounded-[3rem] p-8 card-glass hover-3d-card transition-transform duration-300">
+                <div class="bg-slate-900/40 border border-white/5 rounded-[3rem] p-8 card-glass hover-3d-card">
                     <div id="login-form">
-                        <p class="text-[10px] font-black text-sky-500 uppercase mb-6 tracking-widest">Authentication</p>
-                        <input id="user-name-input" type="text" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-5 text-sm font-bold mb-4 text-white outline-none focus:border-sky-500 transition-all placeholder:text-slate-700" placeholder="Enter Name">
-                        <button onclick="App.login()" class="w-full py-5 bg-sky-600 hover:bg-sky-500 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all shadow-xl shadow-sky-600/20 active:scale-95" id="lang-btn-login">Initialize Session</button>
+                        <input id="user-name-input" type="text" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-5 text-sm font-bold mb-4 text-white outline-none focus:border-sky-500" placeholder="Enter Name">
+                        <button onclick="App.login()" class="w-full py-5 bg-sky-600 hover:bg-sky-500 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all" id="lang-btn-login">Initialize Session</button>
                     </div>
                     <div id="user-profile" class="hidden flex items-center gap-6">
-                        <div id="user-avatar" class="w-20 h-20 bg-gradient-to-br from-sky-500 to-indigo-800 rounded-3xl flex items-center justify-center text-3xl font-black text-white shadow-xl">?</div>
+                        <div id="user-avatar" class="w-20 h-20 bg-gradient-to-br from-sky-500 to-indigo-800 rounded-3xl flex items-center justify-center text-3xl font-black text-white">?</div>
                         <div class="overflow-hidden">
                             <h2 id="display-name" class="text-2xl font-black text-white truncate uppercase tracking-tighter">--</h2>
-                            <button onclick="App.logout()" class="text-[9px] font-bold text-red-500 uppercase flex items-center gap-2 mt-2 active:scale-95 group" id="lang-logout">
-                                <i data-lucide="log-out" class="w-3 h-3 group-hover:translate-x-1 transition-transform rtl:group-hover:-translate-x-1"></i> Logout
+                            <button onclick="App.logout()" class="text-[9px] font-bold text-red-500 uppercase flex items-center gap-2 mt-2" id="lang-logout">
+                                <i data-lucide="log-out" class="w-3 h-3"></i> Logout
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="card-glass h-72 rounded-[3.5rem] p-12 relative overflow-hidden transition-all duration-500 hover:scale-[1.01] group hover-3d-card">
-                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-sky-600/10 rounded-full blur-3xl opacity-50 group-hover:bg-sky-600/20 transition-colors"></div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shimmer transition-transform duration-1000"></div>
-                    
+                <div class="card-glass h-72 rounded-[3.5rem] p-12 relative overflow-hidden transition-all duration-500 group hover-3d-card">
                     <div class="relative z-10 h-full flex flex-col justify-between">
                         <div>
                             <p id="lang-balance-label" class="text-[10px] font-black uppercase text-sky-400 tracking-widest">Metro Card Balance</p>
@@ -125,56 +117,71 @@
                             </div>
                         </div>
                         <div class="flex gap-4">
-                            <input id="topup-amount" type="number" placeholder="0.00" class="bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-sm font-bold flex-1 text-white outline-none focus:border-sky-500 transition-all placeholder:text-slate-700">
+                            <input id="topup-amount" type="number" placeholder="0.00" class="bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-sm font-bold flex-1 text-white outline-none focus:border-sky-500">
                             <button onclick="App.handleTopUp()" class="bg-white text-black w-14 h-14 rounded-2xl flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all shadow-lg active:scale-95">
                                 <i data-lucide="plus"></i>
                             </button>
                         </div>
                     </div>
                 </div>
+
+                <div class="bg-sky-600/5 border border-sky-500/10 rounded-[3rem] p-8 space-y-6">
+                    <h4 id="lang-pricing-title" class="text-xs font-black text-sky-500 uppercase tracking-[0.2em] flex items-center gap-2">
+                        <i data-lucide="tag" class="w-4 h-4"></i> Pricing System
+                    </h4>
+                    <div class="space-y-4" id="pricing-list"></div>
+                </div>
             </aside>
 
             <div class="lg:col-span-8 space-y-12">
-                <div class="bg-slate-900/20 border border-white/5 rounded-[4rem] p-12 backdrop-blur-sm card-glass hover-3d-card transition-transform duration-300">
+                <div class="bg-slate-900/20 border border-white/5 rounded-[4rem] p-12 backdrop-blur-sm card-glass hover-3d-card">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                         <div class="space-y-8">
                             <h3 id="lang-planner-title" class="text-2xl font-black text-white uppercase tracking-tighter flex items-center gap-4">
                                 <span class="w-1.5 h-8 bg-sky-500 rounded-full animate-pulse-slow"></span> Planner
                             </h3>
                             <div class="space-y-4">
-                                <select id="origin" onchange="App.updateFare()" class="w-full bg-black/60 border border-white/10 rounded-3xl px-8 py-6 text-sm font-bold text-white outline-none focus:border-sky-500 appearance-none hover:bg-black/80 transition-colors"></select>
-                                <select id="destination" onchange="App.updateFare()" class="w-full bg-black/60 border border-white/10 rounded-3xl px-8 py-6 text-sm font-bold text-white outline-none focus:border-sky-500 appearance-none hover:bg-black/80 transition-colors"></select>
+                                <select id="origin" onchange="App.updateFare()" class="w-full bg-black/60 border border-white/10 rounded-3xl px-8 py-6 text-sm font-bold text-white outline-none appearance-none"></select>
+                                <select id="destination" onchange="App.updateFare()" class="w-full bg-black/60 border border-white/10 rounded-3xl px-8 py-6 text-sm font-bold text-white outline-none appearance-none"></select>
                             </div>
-                            <button onclick="App.processBooking()" id="lang-btn-book" class="w-full py-7 bg-sky-600 hover:bg-sky-500 rounded-[2.5rem] font-black text-[12px] uppercase tracking-[0.4em] text-white shadow-2xl shadow-sky-600/30 transition-all active:scale-95">Book Key</button>
+                            <button onclick="App.processBooking()" id="lang-btn-book" class="w-full py-7 bg-sky-600 hover:bg-sky-500 rounded-[2.5rem] font-black text-[12px] uppercase tracking-[0.4em] text-white transition-all active:scale-95">Book Key</button>
                         </div>
-                        <div class="text-center py-14 px-8 bg-white/[0.02] rounded-[3.5rem] border border-white/5 relative group overflow-hidden">
-                            <div class="absolute -top-10 -right-10 w-32 h-32 bg-sky-600/10 rounded-full blur-3xl group-hover:bg-sky-600/20 transition-all duration-700"></div>
+                        <div class="text-center py-14 px-8 bg-white/[0.02] rounded-[3.5rem] border border-white/5">
                             <span id="lang-fare-label" class="text-[10px] text-sky-400 font-black uppercase mb-4 block tracking-[0.2em]">Total Fare</span>
                             <div class="flex items-baseline justify-center gap-2">
-                                <span id="fare-output" class="text-[10rem] font-black text-white tracking-tighter leading-none group-hover:text-sky-500 transition-colors duration-500 group-hover:animate-pulse-slow">0</span>
+                                <span id="fare-output" class="text-[10rem] font-black text-white tracking-tighter leading-none">0</span>
                                 <span class="text-slate-700 font-black text-xl uppercase">Egp</span>
                             </div>
                             <p class="mt-8 text-[9px] font-black text-slate-500 uppercase border-t border-white/5 pt-6 flex items-center justify-center gap-2 tracking-widest">
                                 <i data-lucide="route" class="w-4 h-4 text-sky-600 opacity-50"></i> 
-                                <span id="station-count">0</span> Stations Route
+                                <span id="station-count">0</span> <span id="lang-stations-label">Stations</span>
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="h-[450px] w-full rounded-[4rem] border border-white/10 overflow-hidden relative shadow-2xl shadow-black/50 group">
+                <div class="h-[450px] w-full rounded-[4rem] border border-white/10 overflow-hidden relative shadow-2xl group">
                     <div id="map-ui" class="h-full w-full grayscale contrast-125 brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700"></div>
-                    <div class="absolute bottom-8 left-8 z-[400] bg-black/80 backdrop-blur-md px-6 py-3 rounded-full border border-white/10 flex items-center gap-3">
-                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_green]"></div>
-                        <span class="text-[10px] font-black text-white uppercase tracking-widest">Network Live Status</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white/5 border border-white/5 p-8 rounded-[3rem] space-y-4">
+                        <i data-lucide="info" class="text-sky-500"></i>
+                        <h4 id="lang-about-title" class="text-white font-black uppercase text-sm">About Project</h4>
+                        <p id="lang-about-desc" class="text-[11px] text-slate-400 leading-relaxed"></p>
+                    </div>
+                    <div class="bg-white/5 border border-white/5 p-8 rounded-[3rem] space-y-4">
+                        <i data-lucide="zap" class="text-sky-500"></i>
+                        <h4 id="lang-specs-title" class="text-white font-black uppercase text-sm">Tech Specs</h4>
+                        <ul id="lang-specs-list" class="text-[10px] text-slate-400 space-y-2 list-disc list-inside"></ul>
                     </div>
                 </div>
 
                 <div class="space-y-8">
-                    <h3 id="lang-history-title" class="text-[11px] font-black uppercase text-slate-600 px-8 tracking-[0.5em] flex items-center gap-4 animate-fade-in">
+                    <h3 id="lang-history-title" class="text-[11px] font-black uppercase text-slate-600 px-8 tracking-[0.5em] flex items-center gap-4">
                         <i data-lucide="history" class="w-4 h-4 text-sky-600"></i> Recent Journeys
                     </h3>
-                    <div id="history-list" class="grid grid-cols-1 md:grid-cols-2 gap-5 history-container"></div>
+                    <div id="history-list" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
                 </div>
             </div>
         </main>
