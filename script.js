@@ -21,7 +21,13 @@ const App = (() => {
             pricing: ["حتى 9 محطات: 8 ج.م", "من 10 لـ 16 محطة: 10 ج.م", "أكثر من 16 محطة: 15 ج.م"],
             alertLow: "رصيدك غير كافٍ!",
             alertSame: "اختر محطة وصول مختلفة!",
-            noHistory: "لا توجد رحلات سابقة."
+            noHistory: "لا توجد رحلات سابقة.",
+            // Eco Impact
+            ecoTitle: "الأثر البيئي المستدام",
+            ecoSubtitle: "البنية التحتية الخضراء للإسكندرية",
+            ecoCO2: "كجم كربون تم توفيره",
+            ecoTime: "توفير في الوقت",
+            ecoEnergy: "طاقة نظيفة"
         },
         fr: {
             balanceLabel: "Solde de la Carte",
@@ -44,7 +50,13 @@ const App = (() => {
             pricing: ["Jusqu'à 9 stations: 8 EGP", "10 à 16 stations: 10 EGP", "Plus de 16 stations: 15 EGP"],
             alertLow: "Solde Insuffisant!",
             alertSame: "Même station sélectionnée!",
-            noHistory: "Aucune activité."
+            noHistory: "Aucune activité.",
+            // Eco Impact
+            ecoTitle: "Impact Éco-Durable",
+            ecoSubtitle: "Infrastructure Verte d'Alexandrie",
+            ecoCO2: "kg CO2 Économisés",
+            ecoTime: "Gain de Temps",
+            ecoEnergy: "Énergie Propre"
         }
     };
 
@@ -157,7 +169,10 @@ const App = (() => {
                 'lbl-from': d.lblFrom, 'lbl-to': d.lblTo, 'lbl-passenger': d.lblPassenger,
                 'lang-stations-label': d.stationsLabel, 'lang-pricing-title': d.pricingTitle,
                 'lang-about-title': d.aboutTitle, 'lang-about-desc': d.aboutDesc,
-                'lang-specs-title': d.specsTitle
+                'lang-specs-title': d.specsTitle,
+                // New Eco Mappings
+                'lang-eco-title': d.ecoTitle, 'lang-eco-subtitle': d.ecoSubtitle,
+                'lang-eco-co2': d.ecoCO2, 'lang-eco-time': d.ecoTime, 'lang-eco-energy': d.ecoEnergy
             };
             for (let id in mapping) if (document.getElementById(id)) document.getElementById(id).innerText = mapping[id];
             
@@ -210,7 +225,6 @@ const App = (() => {
             document.getElementById('ticket-user-name').innerText = state.currentUser.name;
             document.getElementById('ticket-from').innerText = trip.from;
             document.getElementById('ticket-to').innerText = trip.to;
-            // Enhanced QR Size
             new QRCode(qrBox, { text: `TICKET:${Date.now()}`, width: 220, height: 220 });
         },
 
